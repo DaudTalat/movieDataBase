@@ -1,0 +1,80 @@
+html
+  head
+    title Profile
+    include style
+  include header
+  body
+    div#content
+      h1 #{user.username}
+      p Account Type: Basic
+      label Switch two:
+      |  
+      button(name = "Contributing") Contributing
+      
+      h2 Users Following: 
+      //-
+      if user.following_users.length > 0
+        each u in user.following_users
+          form(action="/users/profile/following_users/"+u method = "get" class = "deleteUser" id = "deleteUser")
+            a(href = "/users/"+u) #{u}
+            | 
+            input(type = "submit" class = "deleteUser" value = "remove" name = "remove")
+            <br>
+      else
+        p N/A
+      h2 People Following: 
+        <br>
+      //-
+      if user.following_people.length > 0
+        each p in user.following_people
+          form(action="/users/profile/following_people/"+p method = "get" class = "deletePerson" id = "deletePerson")
+            a(href = "/people/"+p) #{p}
+            | 
+            input(type = "submit" class = "deleteUser" value = "remove" name = "remove")
+            <br>
+      else
+        p N/A
+    
+      h2 WatchList
+      if user.watchList.length > 0
+        each w in user.watchList
+          form(action="/users/profile/watchList/"+w.id method = "get" class = "deleteWatchListItem" id = "deleteWatchListItem")
+            a(href = "/movies/"+w.id) #{w.title}
+            | 
+            input(type = "submit" class = "deleteWatchListItem" value = "remove" name = "remove")
+            <br>
+      else
+        p N/A
+      
+      h2 Movies recommended
+      if user.recommended
+        for m in user.recommended
+          a(href = "/movies/"+m) #{m}
+          |  
+          button add to WatchList
+          |  
+          button remove
+          <br>
+      else
+        p N/A
+      
+      h2 Reviews:
+      if user.reviews.length > 0
+        each r in user.reviews
+          form(action = "//localhost:3000/reviews/"+r.id method = "get" class = "review")
+            a(href = "//localhost:3000/reviews/"+r.id) #{r.summary}
+            input(type = "submit" value = "remove" name = "remove")
+            <br>
+      else
+          p N/A
+      form(action="/users/logOut" class="logout")
+        input(class = "logout" type="submit" value = "Log Out")
+      //-
+        h2 Notifications
+        if user.notifications
+          each n in user.notifications
+            label #{n} 
+            |  
+            button remove
+            <br>
+  include footer

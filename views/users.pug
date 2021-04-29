@@ -1,0 +1,31 @@
+html
+  head
+    title User: #{user.username}
+    include style
+  include header
+  body
+    div#content
+      h1 #{user.username}
+      a(href = user.username+"/follow") follow user
+      h2 People Following: 
+        <br>
+      //-
+      if user.following_people.length > 0
+        each p in user.following_people
+          a(href = "/people/"+p) #{p}
+          <br>
+      else
+        p not following any people
+    
+      h2 Watch List
+      if user.watchList.length > 0
+        each w in user.watchList
+          a(href = "/movies/"+w.id) #{w.title}
+      
+      h2 Reviews:
+      if user.reviews.length > 0
+        each r in user.reviews
+          a(href = "/reviews/"+r.id) #{r.summary}
+          <br>
+    
+  include footer

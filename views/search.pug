@@ -1,0 +1,39 @@
+html
+  head
+    title Search
+    include style
+  include header
+  body
+    div#content
+      h1 Search
+
+      form(action = "movies/search" method = "GET" class = "search")
+        div(class = "search")
+          label(for= "movie_Title") Movie Title: 
+          input(type = "text" id = "movie_Title" name= "movie_Title" list = "movies_list") 
+          datalist(id = "movies_list")
+        br
+        div(class = "search")
+          label(for = "person_Name") Person Name: 
+          input(type = "text" id = "person_Name" name = "person_Name" list = "person_list")
+          datalist(id = "person_list")
+        br
+        div(class = "search")
+          label(for = "genre") Genre: 
+          input(type = "text" id = "genre" name = "genre" list = "genre_list")
+          datalist(id = "genre_list")
+            for g in genre
+              option(value = g)
+        br
+        div(class = "search")
+          label(for = "limit") Limit: 
+          input(type = "number" id = "limit" name = "limit" value = 10 required)
+        div(class = "search")
+          input(type = "page" id = "page" name = "page" value = 1 hidden)
+        div(class = "search")
+          input(type = "submit" value = "search")
+        if page > 1
+          - let 
+  script(src = "search.js")
+
+  include footer

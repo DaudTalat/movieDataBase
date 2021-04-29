@@ -1,0 +1,19 @@
+html
+  head
+    title Search
+    include style
+  include header
+  body
+    div#content
+      h1 Results
+      if result
+        for m in result
+            a(href = "/movies/" + m._id) #{m.title}
+            br
+      br
+      if curr > 1
+        a(href = prev) prev
+        |    
+      a(href = next) next
+
+  include footer

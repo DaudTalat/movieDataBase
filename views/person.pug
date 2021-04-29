@@ -1,0 +1,39 @@
+html
+  head
+    title #{person.name}
+    include style
+  include header 
+  body
+    div#content
+      h1 #{person.name}
+      a(href = person.name+"/follow") follow person
+      h2 Frequent Collaborators
+      if person.top_collaborators.length > 0
+        ul
+        each m in person.top_collaborators
+          li
+            a(href = "/people/" + m) #{m} 
+      else
+        p N/A
+      h2 Work
+      h3 Writer:
+        //-for loop here
+      if person.wrote.length > 0
+        ul
+        each m in person.wrote
+          li
+            a(href = "/movies/" + m) #{m}
+      h3 Actor:
+      if person.acted_in.length > 0
+        ul
+        each m in person.acted_in
+          li
+            a(href = "/movies/" + m) #{m}
+      h3 Director:
+      
+      if person.directed.length > 0
+        ul
+        each m in person.directed
+          li
+            a(href = "/movies/" + m) #{m}
+include footer

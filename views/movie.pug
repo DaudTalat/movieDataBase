@@ -1,0 +1,64 @@
+html
+  head
+    title= Movie
+  body
+    div#content
+      h1 #{movie.title}
+      p Runtime: #{movie.runtime}
+      p Release Date: #{movie.release_Date}
+      p Average Rating: #{movie.rating}
+      p Plot: #{movie.plot}
+      p Genre: 
+        for genre in movie.genre 
+          a(href="/movies/search?movie_Title=&person_Name=&genre=" + genre + "&limit=10&page=1") #{genre}
+          |, 
+      a(href = movie._id +"/addToWatchList") add to Watch List
+      //-Similar movies
+      h2 Similar Movies:
+      if recommended 
+        for m in recommended
+          a(href="" + m._id) #{m.title};
+          br
+      //-directors
+      h2 Directors:
+      for director in movie.director
+        a(href="/people/" + director._id) #{director.name}
+        br
+      //- Actors
+      h2 Actors:
+      for actor in movie.actors
+        a(href="/people/" + actor._id) #{actor.name}
+        br
+      h2 Writers:
+      for writer in movie.writers
+        a(href="/people/" + writer._id) #{writer}
+        br
+      //- Reviews
+      h2 Reviews: 
+      for review in movie.reviews
+        div.class#review
+          p 
+            b  #{review.summary}
+            |  
+            a(href="//localhost:3000/reviews/" + review.id) See More...
+      //- Add a Review
+      h2 Add a Review:
+      form(action= movie._id+"/reviews/addReview" class = "addReview" method= "POST" id = "addReviewID")
+        div(class = "addReview")
+            label(for = "review_score") Review Score:
+            |  
+            input(type="number" name = "review_score" id = "review_score" required) 
+        br
+        div(class = "addReview")
+          label(for = "review_title") Review Summary:
+          |  
+          input(type="text" name = "review_summary" id = "review_summary" required) 
+        br
+        div(class = "addReview")
+          textarea(name="review_text", cols="45", rows="10" form = "addReviewID") 
+          br
+        div(class = "addReview")
+          input(type="submit" value = "Add Review") 
+
+  include footer
+  

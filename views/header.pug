@@ -1,0 +1,24 @@
+html 
+  header
+    div#header      
+      a(class = "nav label logo link" href="/")
+        img(src="../black2.png", alt="Logo")
+      |  
+      a(class = "nav label link" href="/users/profile") PROFILE
+      |  
+      a(class = "nav label link" href='/contribute') CONTRIBUTE
+      |  
+      a(class = "nav label link" href ='/search') SEARCH
+      |  
+      //- 
+        input(class = "nav" type = "text" id = "search_Bar")
+        
+        select(class = "nav")
+          option(class = "nav" value = "default") DEFAULT
+          option(class = "nav" value = "title") TITLE
+          option(class = "nav" value = "person") PERSON
+          option(class = "nav" value = "genre") GENRE
+        |
+        button(class = "nav" type id = "search_Button") search
+      a(class = "nav label link" href='/logIn') LOG IN / SIGN UP
+    

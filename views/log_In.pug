@@ -1,0 +1,31 @@
+html
+  head
+    title Log In
+    include style
+  include header
+  body
+    div#content
+      h1 Log In
+      //- dont use get method, use post method
+      form(action="users/logIn" method="POST" class= "log_In")
+        div(class= "log_In") Username: 
+          label(for = "username")
+          input(name= "username" type="text" id = "username" required)
+        div(class= "log_In") Password: 
+          label(for = "password")
+          input(name= "password" type="password" id = "password" required)
+        div(class= "log_In")
+          input(type="submit"  value = "Log In" id = "log_In" )
+      
+      h1 Sign Up
+      form(action="users/create" method="POST" class= "sign_Up")
+        div(class= "sign_Up") New Username: 
+          label(for = "username")
+          input(name= "username" type="text" id = "username" required)
+        div(class= "sign_Up") Create Password: 
+          label(for = "password")
+          input(name= "password" type="password" id = "password" required)
+        div(class= "sign_Up")
+          input(type="submit" value = "Sign Up" id = "sign_Up" )
+
+  include footer
