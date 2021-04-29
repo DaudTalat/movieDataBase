@@ -34,7 +34,7 @@ function populate_Movies(){
             runtime     : elem.Runtime,
             rating      : -1,
             genre       : elem.Genre,
-            imageURl    : elem.Poster
+            imageURL    : elem.Poster
         });
 
         //directors

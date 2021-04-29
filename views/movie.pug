@@ -4,6 +4,7 @@ html
   body
     div#content
       h1 #{movie.title}
+      img(src = movie.imageURL)
       p Runtime: #{movie.runtime}
       p Release Date: #{movie.release_Date}
       p Average Rating: #{movie.rating}
@@ -31,7 +32,7 @@ html
         br
       h2 Writers:
       for writer in movie.writers
-        a(href="/people/" + writer._id) #{writer}
+        a(href="/people/" + writer._id) #{writer.name}
         br
       //- Reviews
       h2 Reviews: 

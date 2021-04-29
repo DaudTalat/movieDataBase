@@ -70,7 +70,7 @@ app.get("/",function(req,res){
 
 function getMovie(req,res){
     console.log("Here!");
-    Movie.findById(req.params.mId).populate([{path:'actors'},{path:'writers'},{path:'directors'}]).exec(function(err,movie){
+    Movie.findById(req.params.mId).populate([{path:'actors'},{path:'writers'},{path:'director'}]).exec(function(err,movie){
         console.log(movie);
         res.render('movie',{movie:movie});
     });
