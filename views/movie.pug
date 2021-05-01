@@ -1,39 +1,52 @@
 html
   head
     title= Movie
+    include style
   body
     div#content
-      h1 #{movie.title}
-      img(src = movie.imageURL)
-      p Runtime: #{movie.runtime}
-      p Release Date: #{movie.release_Date}
-      p Average Rating: #{movie.rating}
-      p Plot: #{movie.plot}
-      p Genre: 
-        for genre in movie.genre 
-          a(href="/movies/search?movie_Title=&person_Name=&genre=" + genre + "&limit=10&page=1") #{genre}
-          |, 
-      a(href = movie._id +"/addToWatchList") add to Watch List
-      //-Similar movies
-      h2 Similar Movies:
-      if recommended 
-        for m in recommended
-          a(href="" + m._id) #{m.title};
-          br
-      //-directors
-      h2 Directors:
-      for director in movie.director
-        a(href="/people/" + director._id) #{director.name}
-        br
-      //- Actors
-      h2 Actors:
-      for actor in movie.actors
-        a(href="/people/" + actor._id) #{actor.name}
-        br
-      h2 Writers:
-      for writer in movie.writers
-        a(href="/people/" + writer._id) #{writer.name}
-        br
+      div#main
+        img(src = movie.imageURL) 
+        div#bodyText
+          h1 #{movie.title}
+          button add to Watch List
+
+          p Runtime: #{movie.runtime}  |  Release Date: #{movie.release_Date}  |  Average Rating: #{movie.rating}
+          p #{movie.plot}
+          p 
+            b Genre:
+            | 
+            for genre in movie.genre 
+              a(href="/movies/search?movie_Title=&person_Name=&genre=" + genre + "&limit=10&page=1") #{genre}
+              |, 
+
+
+          //-directors
+          p
+            b Directors:
+            | 
+            for director in movie.director
+              a(href="/people/" + director._id) #{director.name}
+              |, 
+          
+          
+          
+          //- Actors
+          p
+            b Actors:
+            | 
+            for actor in movie.actors
+              a(href="/people/" + actor._id) #{actor.name}
+              |, 
+          
+
+          //-writers
+          p
+            b Writers:
+            | 
+            for writer in movie.writers
+              a(href="/people/" + writer._id) #{writer.name}
+              |, 
+
       //- Reviews
       h2 Reviews: 
       for review in movie.reviews
@@ -42,6 +55,10 @@ html
             b  #{review.summary}
             |  
             a(href="//localhost:3000/reviews/" + review.id) See More...
+
+
+
+
       //- Add a Review
       h2 Add a Review:
       form(action= movie._id+"/reviews/addReview" class = "addReview" method= "POST" id = "addReviewID")
@@ -61,5 +78,14 @@ html
         div(class = "addReview")
           input(type="submit" value = "Add Review") 
 
-  include footer
-  
+
+      //-Similar movies
+      h2 Similar Movies:
+      div#recMovies
+        if recommended 
+          for m in recommended
+            div#recMovie
+              a(href = m._id)
+                img(src=m.imageURL)
+              p
+                a(href="" + m._id) #{m.title}  

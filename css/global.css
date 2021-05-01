@@ -1,0 +1,67 @@
+/*
+font-family: 'Open Sans', sans-serif;
+
+font-family: 'Roboto Slab', serif;
+
+font-family: 'Zilla Slab', serif;
+
+font-family: 'IBM Plex Serif', serif;
+
+font-family: 'Ubuntu', sans-serif;
+*/
+
+
+body{
+  margin: 0;
+  font-family: 'Ubuntu', sans-serif;
+  color: black;
+  background-color: F5DAB2;
+  margin: 20px 20px 20px;
+}
+
+h1{
+  font-weight: 700;
+  font-size: 40px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+#content input, #content textarea{
+  margin: 5px 5px 5px 5px;
+}
+
+img{
+  border-radius: 10px;
+  height: 500px;
+  width: 400px;
+  margin-top: 20px;
+  margin-right: 20px;
+
+}
+
+#main{
+  display: flex;
+  flex-direction: row;
+}
+
+svg{
+  fill: brown;
+  border-radius: 5px;
+  stroke-width: 10px;
+}
+
+#recMovies{
+  display: flex;
+  flex-direction: row;
+}
+
+#recMovie img{
+  width: 200px;
+  height: 250px;
+}
+
+#recMovie p{
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+}

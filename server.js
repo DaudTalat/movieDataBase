@@ -72,7 +72,55 @@ function getMovie(req,res){
     console.log("Here!");
     Movie.findById(req.params.mId).populate([{path:'actors'},{path:'writers'},{path:'director'}]).exec(function(err,movie){
         console.log(movie);
-        res.render('movie',{movie:movie});
+
+        let query = [];
+        movie.genre.forEach(elem =>{
+            query.push({genre:elem});
+        });
+        let output = [];
+
+        Movie.findRandom({genre:movie.genre}, {}, {limit:5}, function(e1,r1){
+
+            let find = r1.findIndex(elem =>{
+                if(elem.title === movie.title){
+                    return true;
+                }else{
+                    return false;
+                }
+            });
+            //console.log(r);
+            if(find != -1){
+                r1.splice(find,1);
+            }
+
+
+            if(r1.length < 5){
+                output = output.concat(r1);
+                let templength = 5 - output.length;
+                Movie.findRandom({$or:query},{},{limit:templength},function(e2,r2){
+                    let find = r2.findIndex(elem =>{
+                        if(elem.title === movie.title){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    });
+                    //console.log(r);
+                    if(find != -1){
+                        r2.splice(find,1);
+                    }
+
+                    output = output.concat(r2);
+                    console.log(output);
+
+                    res.render('movie',{movie:movie, recommended:output});
+                });
+            }else{
+                res.render('movie',{movie:movie, recommended:r1});
+            }
+        });
+
+       
     });
 }
 

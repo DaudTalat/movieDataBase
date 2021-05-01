@@ -6,7 +6,7 @@ const {Schema} = mongoose;
 
 let app = express();
 
-let data = require('./movie-data-10.json');
+let data = require('./movie-data-2500.json');
 
 let Movie = require("./models/movieModel.js");
 let Person = require("./models/personModel.js");

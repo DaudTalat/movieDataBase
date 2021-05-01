@@ -17,7 +17,7 @@ let movieSchema = new Schema({
     imageURL           : String
 });
 
-//movieSchema.plugin(random);
+movieSchema.plugin(random);
 //returns string array of all people who worked on movie without repeats
 
 let Movie = mongoose.model("movie",movieSchema);
