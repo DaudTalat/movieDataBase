@@ -2,7 +2,6 @@ html
   head
     title #{person.name}
     include style
-  include header 
   body
     div#content
       h1 #{person.name}
@@ -17,23 +16,26 @@ html
         p N/A
       h2 Work
       h3 Writer:
-        //-for loop here
-      if person.wrote.length > 0
-        ul
-        each m in person.wrote
-          li
-            a(href = "/movies/" + m) #{m}
+      div(class = "movieLink")
+        if person.wrote.length > 0
+          each m in person.wrote
+              a(href = "/movies/"+ m._id)
+                div
+                  img(src=m.imageURL)
+                  p #{m.title}
       h3 Actor:
-      if person.acted_in.length > 0
-        ul
-        each m in person.acted_in
-          li
-            a(href = "/movies/" + m) #{m}
+      div(class = "movieLink")
+        if person.acted_in.length > 0
+          each m in person.acted_in
+              a(href = "/movies/"+ m._id)
+                div
+                  img(src=m.imageURL)
+                  p #{m.title}
       h3 Director:
-      
-      if person.directed.length > 0
-        ul
-        each m in person.directed
-          li
-            a(href = "/movies/" + m) #{m}
-include footer
+      div(class = "movieLink")
+        if person.directed.length > 0
+          each m in person.directed
+              a(href = "/movies/"+ m._id)
+                div
+                  img(src=m.imageURL)
+                  p #{m.title}

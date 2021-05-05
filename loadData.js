@@ -26,8 +26,10 @@ db.once("open", function(error){
 
 
 
+
 function populate_Movies(){
     data.forEach(elem =>{
+        let peopleSet = new Set();
         let m = new Movie({
             title       : elem.Title,
             plot        : elem.Plot,
@@ -39,6 +41,14 @@ function populate_Movies(){
 
         //directors
         elem.Director.forEach(director =>{
+
+            if(peopleSet.has(director) === false){
+                m.all_People.push(director);
+                peopleSet.add(director);
+            }
+             
+            peopleSet.add(director);
+
             let find = peopleArray.findIndex(person =>{
                 if(person.name === director){
                     return true;
@@ -63,6 +73,15 @@ function populate_Movies(){
 
         //actors
         elem.Actors.forEach(actor =>{
+
+            if(peopleSet.has(actor) === false){
+                m.all_People.push(actor);
+                peopleSet.add(actor);
+            }
+
+
+            peopleSet.add(actor);
+
             let find = peopleArray.findIndex(person =>{
                 if(person.name === actor){
                     return true;
@@ -86,6 +105,11 @@ function populate_Movies(){
 
         //writers
         elem.Writer.forEach(writer =>{
+            if(peopleSet.has(writer) === false){
+                m.all_People.push(writer);
+                peopleSet.add(writer);
+            }
+
             let find = peopleArray.findIndex(person =>{
                 if(person.name === writer){
                     return true;
@@ -107,10 +131,9 @@ function populate_Movies(){
             }
             
         });
-
         movieArray.push(m);
-
     });
+
     saveMovies();
 }
 

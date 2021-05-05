@@ -56,24 +56,20 @@ html
             |  
             a(href="//localhost:3000/reviews/" + review.id) See More...
 
-
-
-
       //- Add a Review
       h2 Add a Review:
       form(action= movie._id+"/reviews/addReview" class = "addReview" method= "POST" id = "addReviewID")
+        label(for = "review_score") Review Score:
         div(class = "addReview")
-            label(for = "review_score") Review Score:
-            |  
             input(type="number" name = "review_score" id = "review_score" required) 
         br
+        label(for = "review_title") Review Summary:
         div(class = "addReview")
-          label(for = "review_title") Review Summary:
-          |  
           input(type="text" name = "review_summary" id = "review_summary" required) 
         br
+        label(for = "review_text") Review: 
         div(class = "addReview")
-          textarea(name="review_text", cols="45", rows="10" form = "addReviewID") 
+          textarea(name="review_text", cols="45", rows="7" form = "addReviewID"  ) 
           br
         div(class = "addReview")
           input(type="submit" value = "Add Review") 
@@ -81,11 +77,10 @@ html
 
       //-Similar movies
       h2 Similar Movies:
-      div#recMovies
+      div(class = "movieLink")
         if recommended 
           for m in recommended
-            div#recMovie
-              a(href = m._id)
-                img(src=m.imageURL)
-              p
-                a(href="" + m._id) #{m.title}  
+            a(href = "/movies/"+ m._id)
+                div
+                  img(src=m.imageURL)
+                  p #{m.title}

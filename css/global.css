@@ -50,18 +50,39 @@ svg{
   stroke-width: 10px;
 }
 
-#recMovies{
+.movieLink{
   display: flex;
   flex-direction: row;
+  overflow: auto;
+  overscroll-behavior-y: contain;
+  width: 100%;
 }
 
-#recMovie img{
+.movieLink img{
   width: 200px;
   height: 250px;
 }
 
-#recMovie p{
+.movieLink p{
   width: 200px;
   white-space: nowrap;
   overflow: hidden;
+}
+
+form input[type="text"],form input[type="number"], form textarea{
+  width: 50%;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+
+form label{
+  display: inline-block;
+}
+
+form textarea{
+  border-radius: 5px;
+  border-width: 1px;
+  font-family: 'Ubuntu', sans-serif;
+  resize: none;
 }

@@ -14,7 +14,8 @@ let movieSchema = new Schema({
     writers         : [{type:Schema.Types.ObjectId,ref:'person'}],
     actors          : [{type:Schema.Types.ObjectId,ref:'person'}],
     reviews         : [{type:Schema.Types.ObjectId,ref:'review'}],
-    imageURL           : String
+    imageURL        : String,
+    all_People       : [String]
 });
 
 movieSchema.plugin(random);
