@@ -68,7 +68,15 @@ app.use("/people",peopleRouter);
 
 app.get("/",function(req,res){
     console.log(req.url);
-    res.send("index");
+    res.render("index");
+});
+
+app.get("/search", function(req,res){
+    res.render("search", {genre:genre_List});
+});
+
+app.get("/logIn", function(req,res){
+    res.render("logIn");
 });
 
 
