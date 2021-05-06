@@ -48,6 +48,7 @@ let peopleRouter = require('./routers/peopleRouter');
 let userRouter = require('./routers/userRouter');
 
 app.use(express.urlencoded({ extended: true}));
+app.use(session({secret:'some secret key here'}));
 
 app.use("/movies",movieRouter);
 app.use("/people",peopleRouter);
@@ -56,16 +57,22 @@ app.use("/users",userRouter);
 
 
 app.get("/",function(req,res){
-    console.log(req.url);
-    res.render("index");
+    console.log(req.session.user);
+    if(req.session.user  === undefined){
+        req.session.link = "logIn";
+    }else{
+        req.session.link = "profile";
+    }
+    res.render("index", {link:req.session.link});
 });
 
 app.get("/search", function(req,res){
-    res.render("search", {genre:genre_List});
+    console.log(req.session.link);
+    res.render("search", {genre:genre_List,link:req.session.link});
 });
 
 app.get("/logIn", function(req,res){
-    res.render("logIn");
+    res.render("logIn",{link:req.session.link});
 });
 
 

@@ -18,7 +18,7 @@ function getPerson(req,res){
     exec(function(error,person){
         if (error) throw error;
 
-        res.render('person', {person:person});
+        res.render('person', {person:person,});
 
     });
 }

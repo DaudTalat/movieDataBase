@@ -9,7 +9,7 @@ let Movie = require("../models/movieModel");
 let Person = require("../models/personModel");
 
 let router = express.Router();
-
+router.post("/:mId/reviews/:rId",add_Movies);
 router.get("/search", get_Search_List);
 router.get("/:mId",getMovie);
 
@@ -63,10 +63,10 @@ function getMovie(req,res){
                         output = output.concat(r2);
                         console.log(output);
     
-                        res.render('movie',{movie:movie, recommended:output});
+                        res.render('movie',{movie:movie, recommended:output, link:req.session.link});
                     });
                 }else{
-                    res.render('movie',{movie:movie, recommended:r1});
+                    res.render('movie',{movie:movie, recommended:r1, link:req.session.link});
                 }
             });
         }       
@@ -104,7 +104,7 @@ function get_Search_List(req,res){
       res.send("Could not find any movies");
     }else{
       res.status(200);
-      res.render('searchList',{result: result, next: next_url, prev: prev_url, curr: parseInt(req.query.page)});
+      res.render('searchList',{result: result, next: next_url, prev: prev_url, curr: parseInt(req.query.page), link:req.session.link});
     }
   });
 }

@@ -2,6 +2,7 @@ html
   head
     title= Movie
     include style
+  include header
   body
     div#content
       div#main
@@ -19,7 +20,6 @@ html
               a(href="/movies/search?movie_Title=&person_Name=&genre=" + genre + "&limit=10&page=1") #{genre}
               |, 
 
-
           //-directors
           p
             b Directors:
@@ -27,9 +27,7 @@ html
             for director in movie.director
               a(href="/people/" + director._id) #{director.name}
               |, 
-          
-          
-          
+
           //- Actors
           p
             b Actors:
@@ -57,22 +55,23 @@ html
             a(href="//localhost:3000/reviews/" + review.id) See More...
 
       //- Add a Review
-      h2 Add a Review:
-      form(action= movie._id+"/reviews/addReview" class = "addReview" method= "POST" id = "addReviewID")
-        label(for = "review_score") Review Score:
-        div(class = "addReview")
-            input(type="number" name = "review_score" id = "review_score" required) 
-        br
-        label(for = "review_title") Review Summary:
-        div(class = "addReview")
-          input(type="text" name = "review_summary" id = "review_summary" required) 
-        br
-        label(for = "review_text") Review: 
-        div(class = "addReview")
-          textarea(name="review_text", cols="45", rows="7" form = "addReviewID"  ) 
+      if link === "profile"
+        h2 Add a Review:
+        form(action= movie._id+"/reviews/addReview" class = "addReview" method= "POST" id = "addReviewID")
+          label(for = "review_score") Review Score:
+          div(class = "addReview")
+              input(type="number" name = "review_score" id = "review_score" required) 
           br
-        div(class = "addReview")
-          input(type="submit" value = "Add Review") 
+          label(for = "review_title") Review Summary:
+          div(class = "addReview")
+            input(type="text" name = "review_summary" id = "review_summary" required) 
+          br
+          label(for = "review_text") Review: 
+          div(class = "addReview")
+            textarea(name="review_text", cols="45", rows="7" form = "addReviewID"  ) 
+            br
+          div(class = "addReview")
+            input(type="submit" value = "Add Review") 
 
 
       //-Similar movies

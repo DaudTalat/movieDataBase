@@ -2,10 +2,10 @@ html
   head
     title #{person.name}
     include style
+  include header
   body
     div#content
       h1 #{person.name}
-      a(href = person.name+"/follow") follow person
       h2 Frequent Collaborators
       if person.top_collaborators.length > 0
         ul

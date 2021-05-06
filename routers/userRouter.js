@@ -11,17 +11,40 @@ let router = express.Router();
 let Movie = require("../models/movieModel");
 let Person = require("../models/personModel");
 let User = require("../models/userModel");
+const session = require('express-session');
 
 router.post("/create",createAccount);
-router.use("/profile",getProfile);
+router.get("/profile",getProfile);
+router.post("/logout",logOut);
+router.post("/logIn", logIn);
+
+function logIn(req,res){
+    User.findOne({username: req.body.username, password: req.body.password}).exec(function(error,result){
+        if(error){
+            res.render("error",{error:err});
+        }else if(result === null){
+            res.render("error",{error:"could not find user"});
+        }else{
+            req.session.user = result;
+            req.session.link = "profile";
+            res.redirect('profile');
+        }
+    });
+}
 
 function getProfile(req,res){
     console.log(req.method);
-    res.render("profile",{user:req.session.user});
+    res.render("profile",{user:req.session.user,link:req.session.link});
+}
+
+function logOut(req,res){
+    req.session.user = undefined;
+    req.session.link = "logIn";
+    res.redirect("/");
 }
 
 function createAccount(req,res){
-    console.log(req.body);
+    console.log(req);
     let  un =  req.body.username;
     User.findOne({username:un}).exec(function(error, user ){
         console.log(user);
@@ -32,10 +55,11 @@ function createAccount(req,res){
             });
             u.save(function(err,result){
                 if(err){
-                    res.
+                    
                     res.render("error",{error:err});
                 }else{
                     req.session.user = u;
+                    req.session.link = "profile";
                     res.redirect('profile');
                 }
             });
