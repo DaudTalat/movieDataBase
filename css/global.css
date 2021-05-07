@@ -85,3 +85,37 @@ form textarea{
   font-family: 'Ubuntu', sans-serif;
   resize: none;
 }
+
+.reviews{
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+  overscroll-behavior-y: contain;
+  width: 100%;
+}
+
+.review{
+  background-color: f2c79b;
+  margin-right: 20px;
+  padding: 10px 20px 20px;
+  border-radius: 10px;
+  
+}
+
+.review p{
+  width: 350px;
+  overflow: hidden;
+}
+
+.review .text{
+  width: 350px;
+  height: 75px;
+  word-break: break-all;
+  overflow: hidden;
+}
+.review h3{
+  width: 350px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+

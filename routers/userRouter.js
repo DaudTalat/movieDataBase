@@ -11,6 +11,8 @@ let router = express.Router();
 let Movie = require("../models/movieModel");
 let Person = require("../models/personModel");
 let User = require("../models/userModel");
+let Review = require("../models/reviewModel");
+
 const session = require('express-session');
 
 router.post("/create",createAccount);
@@ -19,12 +21,14 @@ router.post("/logout",logOut);
 router.post("/logIn", logIn);
 
 function logIn(req,res){
-    User.findOne({username: req.body.username, password: req.body.password}).exec(function(error,result){
+    User.findOne({username: req.body.username, password: req.body.password}).populate({path:"reviews"}).exec(function(error,result){
         if(error){
-            res.render("error",{error:err});
+            res.render("error",{error:error});
+            throw error;
         }else if(result === null){
             res.render("error",{error:"could not find user"});
         }else{
+            console.log(result.reviews);
             req.session.user = result;
             req.session.link = "profile";
             res.redirect('profile');

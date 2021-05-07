@@ -61,11 +61,16 @@ html
       
       h2 Reviews:
       if user.reviews.length > 0
-        each r in user.reviews
-          form(action = "//localhost:3000/reviews/"+r.id method = "get" class = "review")
-            a(href = "//localhost:3000/reviews/"+r.id) #{r.summary}
-            input(type = "submit" value = "remove" name = "remove")
-            <br>
+        div(class = "reviews")
+          for review in user.reviews
+              div(class = "review")
+                h3  #{review.title}  
+                p(class = "rating") rating: #{review.rating}
+                p(class = "text") #{review.text}
+                a(href="//localhost:3000/reviews/" + review.id) See More...
+                br
+                br
+                button(id = review._id) remove
       else
           p N/A
       form(action="/users/logOut" class="logout" method = "post")

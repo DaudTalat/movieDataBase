@@ -7,11 +7,11 @@ let userSchema = new Schema({
     username: String,
     password: String,
     contributing: Boolean,
-    following_users: [{type:Schema.Types.ObjectId,ref:"User"}],
-    following_people: [{type:Schema.Types.ObjectId,ref:"Person"}],
-    watchList: [{type:Schema.Types.ObjectId,ref:"Movie"}],
-    recommended: [{type:Schema.Types.ObjectId,ref:"Movie"}], 
-    reviews: [{type:Schema.Types.ObjectId,ref:"Review"}]
+    following_users: [{type:Schema.Types.ObjectId,ref:"user"}],
+    following_people: [{type:Schema.Types.ObjectId,ref:"person"}],
+    watchList: [{type:Schema.Types.ObjectId,ref:"movie"}],
+    recommended: [{type:Schema.Types.ObjectId,ref:"movie"}], 
+    reviews: [{type:Schema.Types.ObjectId,ref:"review"}]
 });
 
 

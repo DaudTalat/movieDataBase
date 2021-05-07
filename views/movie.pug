@@ -46,13 +46,14 @@ html
               |, 
 
       //- Reviews
-      h2 Reviews: 
-      for review in movie.reviews
-        div.class#review
-          p 
-            b  #{review.title}
-            |  
-            a(href="//localhost:3000/reviews/" + review.id) See More...
+      h2 Reviews:
+      div(class = "reviews")
+        for review in movie.reviews
+            div(class = "review")
+              h3  #{review.title}  
+              p(class = "rating") rating: #{review.rating}
+              p(class = "text") #{review.text}
+              a(href="//localhost:3000/reviews/" + review.id) See More...
 
       //- Add a Review
       if link === "profile" && reviewed == false
