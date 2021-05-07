@@ -4,8 +4,8 @@ const random = require("mongoose-simple-random");
 
 
 let reviewSchema = new Schema({
-    username: [{type:Schema.Types.ObjectId,ref:"User"}],
-    movie: [{type:Schema.Types.ObjectId,ref:"Movie"}],
+    username: {type:Schema.Types.ObjectId,ref:"User"},
+    movie: {type:Schema.Types.ObjectId,ref:"Movie"},
     rating: Number,
     title: String,
     text: String

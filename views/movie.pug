@@ -50,25 +50,25 @@ html
       for review in movie.reviews
         div.class#review
           p 
-            b  #{review.summary}
+            b  #{review.title}
             |  
             a(href="//localhost:3000/reviews/" + review.id) See More...
 
       //- Add a Review
-      if link === "profile"
+      if link === "profile" && reviewed == false
         h2 Add a Review:
-        form(action= movie._id+"/reviews/addReview" class = "addReview" method= "POST" id = "addReviewID")
-          label(for = "review_score") Review Score:
+        form(action= movie._id+"/addReview" class = "addReview" method= "POST" id = "addReviewID")
+          label(for = "rating") Review Score:
           div(class = "addReview")
-              input(type="number" name = "review_score" id = "review_score" required) 
+              input(type="number" name = "rating" id = "rating" required) 
           br
-          label(for = "review_title") Review Summary:
+          label(for = "title") Review Summary:
           div(class = "addReview")
-            input(type="text" name = "review_summary" id = "review_summary" required) 
+            input(type="text" name = "title" id = "title" required) 
           br
-          label(for = "review_text") Review: 
+          label(for = "text") Review: 
           div(class = "addReview")
-            textarea(name="review_text", cols="45", rows="7" form = "addReviewID"  ) 
+            textarea(name="text", cols="45", rows="7" form = "addReviewID"  ) 
             br
           div(class = "addReview")
             input(type="submit" value = "Add Review") 

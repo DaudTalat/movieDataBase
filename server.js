@@ -80,6 +80,7 @@ app.get("/logIn", function(req,res){
 mongoose.connect("mongodb://localhost/mDB", {useNewUrlParser:true, useUnifiedTopology: true});
 db.on('error', console.error.bind(console, "connection error: "));
 db.once("open", function(error){
-  app.listen(3000);
-  console.log("Listening on port http://localhost:3000");
+    
+    app.listen(3000);
+    console.log("Listening on port http://localhost:3000");
 });

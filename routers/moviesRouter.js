@@ -7,16 +7,18 @@ const {Schema} = mongoose;
 
 let Movie = require("../models/movieModel");
 let Person = require("../models/personModel");
+let Review = require("../models/reviewModel");
+let User = require("../models/userModel");
 
 let router = express.Router();
-router.post("/:mId/reviews/:rId",add_Movies);
+router.post("/:mId/addReview",add_Reviews);
 router.get("/search", get_Search_List);
 router.get("/:mId",getMovie);
 
 
 function getMovie(req,res){
     console.log("Here!");
-    Movie.findById(req.params.mId).populate([{path:'actors'},{path:'writers'},{path:'director'}]).exec(function(err,movie){
+    Movie.findById(req.params.mId).populate([{path:'actors'},{path:'writers'},{path:'director'},{path:"reviews"}]).exec(function(err,movie){
         console.log(movie);
 
         if(movie === null){
@@ -62,8 +64,21 @@ function getMovie(req,res){
     
                         output = output.concat(r2);
                         console.log(output);
-    
-                        res.render('movie',{movie:movie, recommended:output, link:req.session.link});
+
+                        let reviewed = false;
+
+                        if(req.session.user != undefined ){
+                            movie.reviews.forEach(ele =>{
+                                console.log(ele.username);
+                                console.log(req.session.user._id);
+                                if(ele.username.toString() === req.session.user._id.toString()){
+                                    reviewed = true;
+                                }
+                            });
+                        }
+
+                        console.log(reviewed);
+                        res.render('movie',{movie:movie, recommended:output, link:req.session.link, reviewed:reviewed});
                     });
                 }else{
                     res.render('movie',{movie:movie, recommended:r1, link:req.session.link});
@@ -72,6 +87,37 @@ function getMovie(req,res){
         }       
     });
 }
+
+function add_Reviews(req,res){
+    //get movie
+    //get user
+    //check if user has 
+    Movie.findById(req.params.mId).exec(function(error,movie){
+
+        User.findById(req.session.user._id).exec(function(e,user){
+
+            let r = new Review({
+                username:req.session.user,
+                movie:movie._id,
+                rating: req.body.rating,
+                title: req.body.title,
+                text: req.body.text
+            });
+
+            movie.reviews.push(r._id);
+            user.reviews.push(r._id);
+            r.save(function(){
+                movie.save(function(){
+                    user.save(function(){
+                        res.redirect("/movies/"+req.params.mId);
+                    });
+                });
+            });
+        });
+        
+    });
+}
+
 
 
 function get_Search_List(req,res){
