@@ -17,8 +17,17 @@ router.get("/:mId",getMovie);
 
 
 function getMovie(req,res){
+
+    if(req.session.user ===  undefined){
+        req.session.link = "logIn";
+    }else{
+        req.session.link = "profile";
+    }
+
     console.log("Here!");
-    Movie.findById(req.params.mId).populate([{path:'actors'},{path:'writers'},{path:'director'},{path:"reviews"}]).exec(function(err,movie){
+    Movie.findById(req.params.mId).
+    populate([{path:'actors'},{path:'writers'},{path:'director'},{path:"reviews"}]).
+    exec(function(err,movie){
         console.log(movie);
 
         if(movie === null){

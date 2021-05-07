@@ -19,6 +19,15 @@ router.post("/create",createAccount);
 router.get("/profile",getProfile);
 router.post("/logout",logOut);
 router.post("/logIn", logIn);
+router.get("/:uId",getUser);
+
+
+function getProfileJS(req,res){
+
+    let p = require("../public/profile");
+    res.sendFile("../public/profile",{header:{"content-type":"application/json"}});
+}
+
 
 function logIn(req,res){
     User.findOne({username: req.body.username, password: req.body.password}).populate({path:"reviews"}).exec(function(error,result){
@@ -73,6 +82,14 @@ function createAccount(req,res){
     });
 }
 
+
+function getUser(req,res){
+    User.findById(req.params.uId).
+    populate([{path:"watchList"},{path:"reviews"}]).
+    exec(function(error,user){
+        res.render("users",{user:user});
+    });
+}
 
 
 

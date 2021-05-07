@@ -14,31 +14,10 @@ app.set('view engine','pug');
 
 
 let genre_List = [
-    'Comedy',
-    'Drama',
-    'Horror',
-    'Mystery',
-    'Crime',
-    'Thriller',
-    'Romance',
-    'War',
-    'Western',
-    'Documentary',
-    'Music',
-    'Animation',
-    'Adventure',
-    'Family',
-    'Sci-Fi',
-    'Action',
-    'Fantasy',
-    'Sport',
-    'Short',
-    'Biography',
-    'History',
-    'N/A',
-    'Musical',
-    'Film-Noir',
-    'News' 
+    'Comedy','Drama','Horror','Mystery','Crime','Thriller','Romance','War',
+    'Western','Documentary','Music','Animation','Adventure','Family','Sci-Fi',
+    'Action','Fantasy','Sport','Short','Biography','History','N/A','Musical',
+    'Film-Noir','News' 
 ];
 
 
@@ -46,6 +25,8 @@ let genre_List = [
 let movieRouter = require('./routers/moviesRouter');
 let peopleRouter = require('./routers/peopleRouter');
 let userRouter = require('./routers/userRouter');
+let reviewRouter = require('./routers/reviewRouter');
+
 
 app.use(express.urlencoded({ extended: true}));
 app.use(session({secret:'some secret key here'}));
@@ -53,6 +34,8 @@ app.use(session({secret:'some secret key here'}));
 app.use("/movies",movieRouter);
 app.use("/people",peopleRouter);
 app.use("/users",userRouter);
+app.use("/reviews",reviewRouter);
+
 
 
 

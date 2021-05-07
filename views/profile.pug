@@ -70,17 +70,12 @@ html
                 a(href="//localhost:3000/reviews/" + review.id) See More...
                 br
                 br
-                button(id = review._id) remove
+                button(class = "removeReview" id = review._id) remove
       else
           p N/A
+      br
+      br
       form(action="/users/logOut" class="logout" method = "post")
         input(class = "logout" type="submit" value = "Log Out")
-      //-
-        h2 Notifications
-        if user.notifications
-          each n in user.notifications
-            label #{n} 
-            |  
-            button remove
-            <br>
+  script(src = "profile")
   include footer

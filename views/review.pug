@@ -6,10 +6,13 @@ html
   body
     include header
     div#content
-      h2 Summary: #{review.summary}
-      h4 Rating: #{review.rating}, By:
-          a(href = "//localhost:3000/users/" + review.username)  #{review.username}
-          |,  For:
-          a(href = "//localhost:3000/movies/" + review.movie)  #{review.movie}
+      h2 Summary: #{review.title}
+      b Rating: #{review.rating}
+      br
+      |Username: 
+      a(href = "//localhost:3000/users/" + review.username._id)  #{review.username.username}
+      br
+      |Movie: 
+      a(href = "//localhost:3000/movies/" + review.movie._id)  #{review.movie.title}
       p #{review.text}
   include footer

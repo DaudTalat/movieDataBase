@@ -7,17 +7,7 @@ html
     div#content
       h1 #{user.username}
       //-
-      a(href = user.username+"/follow") follow user
-      h2 People Following: 
-        <br>
-      //-
-      if user.following_people.length > 0
-        each p in user.following_people
-          a(href = "/people/"+p) #{p}
-          <br>
-      else
-        p not following any people
-    
+      
       h2 Watch List
       if user.watchList.length > 0
         each w in user.watchList
@@ -25,8 +15,14 @@ html
       
       h2 Reviews:
       if user.reviews.length > 0
-        each r in user.reviews
-          a(href = "/reviews/"+r.id) #{r.summary}
-          <br>
+        div(class = "reviews")
+          for review in user.reviews
+              div(class = "review")
+                h3  #{review.title}  
+                p(class = "rating") rating: #{review.rating}
+                p(class = "text") #{review.text}
+                a(href="//localhost:3000/reviews/" + review.id) See More...
+      else
+          p N/A
     
   include footer
