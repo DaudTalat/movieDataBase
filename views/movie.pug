@@ -9,7 +9,12 @@ html
         img(src = movie.imageURL) 
         div#bodyText
           h1 #{movie.title}
-          button add to Watch List
+
+          if added === false && link === "profile"
+            form(action = "/users/profile/watchList" method = "post" class = "addToWatchList")
+              input(type = "text" value = movie._id name = "movie" hidden)
+              input(type = "submit" value = "Add to WatchList" id = "addToWatchListButton")
+          
 
           p Runtime: #{movie.runtime}  |  Release Date: #{movie.release_Date}  |  Average Rating: #{movie.rating}
           p #{movie.plot}

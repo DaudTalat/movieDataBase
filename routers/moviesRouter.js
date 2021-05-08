@@ -24,11 +24,9 @@ function getMovie(req,res){
         req.session.link = "profile";
     }
 
-    console.log("Here!");
     Movie.findById(req.params.mId).
     populate([{path:'actors'},{path:'writers'},{path:'director'},{path:"reviews"}]).
     exec(function(err,movie){
-        console.log(movie);
 
         if(movie === null){
             res.render('error',{error:"movie not found!"});
@@ -40,6 +38,28 @@ function getMovie(req,res){
             });
             let output = [];
 
+            let reviewed = false;
+
+            if(req.session.user != undefined ){
+                movie.reviews.forEach(ele =>{
+                    if(ele.username.toString() === req.session.user._id.toString()){
+                        added = true;
+                    }
+                });
+            }
+
+            let added = false;
+
+            if(req.session.user != undefined){
+                req.session.user.watchList.forEach(ele =>{
+                    if(ele._id.toString() === req.params.mId){
+                        added = true;
+                    }
+                });
+            }
+
+            console.log("added: " + added);
+
 
             Movie.findRandom({genre:movie.genre}, {}, {limit:5}, function(e1,r1){
                 let find = r1.findIndex(elem =>{
@@ -49,16 +69,17 @@ function getMovie(req,res){
                         return false;
                     }
                 });
-                //console.log(r);
+                
                 if(find != -1){
                     r1.splice(find,1);
                 }
-    
-    
+
                 if(r1.length < 5){
                     output = output.concat(r1);
                     let templength = 5 - output.length;
                     Movie.findRandom({$or:query},{},{limit:templength},function(e2,r2){
+                        
+                        
                         let find = r2.findIndex(elem =>{
                             if(elem.title === movie.title){
                                 return true;
@@ -66,32 +87,19 @@ function getMovie(req,res){
                                 return false;
                             }
                         });
-                        //console.log(r);
                         if(find != -1){
                             r2.splice(find,1);
                         }
     
                         output = output.concat(r2);
-                        console.log(output);
 
-                        let reviewed = false;
-
-                        if(req.session.user != undefined ){
-                            movie.reviews.forEach(ele =>{
-                                console.log(ele.username);
-                                console.log(req.session.user._id);
-                                if(ele.username.toString() === req.session.user._id.toString()){
-                                    reviewed = true;
-                                }
-                            });
-                        }
-
-                        console.log(reviewed);
-                        res.render('movie',{movie:movie, recommended:output, link:req.session.link, reviewed:reviewed});
+                        res.render('movie',{movie:movie, recommended:output, link:req.session.link, reviewed:reviewed, added: added});
                     });
                 }else{
-                    res.render('movie',{movie:movie, recommended:r1, link:req.session.link});
+                    res.render('movie',{movie:movie, recommended:r1, link:req.session.link, reviewed:reviewed, added: added});
                 }
+
+
             });
         }       
     });
@@ -149,7 +157,6 @@ function get_Search_List(req,res){
     query.push({genre:q.genre});
   }
 
-  console.log(query);
 
 
   Movie.find({$and:query}).limit(parseInt(req.query.limit)).skip(cursor).exec(function(err,result){

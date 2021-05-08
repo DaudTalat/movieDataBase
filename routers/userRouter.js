@@ -15,8 +15,8 @@ let Review = require("../models/reviewModel");
 
 const session = require('express-session');
 
-
-
+router.delete("/profile/watchList/:wId",removeFromWatchList);
+router.post("/profile/watchList",addToWatchList);
 router.post("/create",createAccount);
 router.get("/profile",getProfile);
 router.post("/logout",logOut);
@@ -24,11 +24,51 @@ router.post("/logIn", logIn);
 router.get("/:uId",getUser);
 
 
+function removeFromWatchList(req,res){
+    User.findById(req.session.user._id).exec(function(error, user){
+        let index = user.watchList.findIndex(ele =>{
+            if(ele.toString() === req.params.wId){
+                return true;
+            }else{
+                return false;
+            }
+        });
 
+        user.watchList.splice(index,1);
+
+        user.save(function(){
+            res.status(200);
+            res.send("oK!");
+        })
+
+
+    });
+}
+
+
+function addToWatchList(req,res){
+    if(req.session.user === undefined){
+        res.render("error", {error:"Please Log In First"});
+    }else{
+        User.findById(req.session.user._id).exec(function(error,user){
+            user.watchList.push(req.body.movie);
+            Movie.findById(req.body.movie).exec(function(e1,movie){
+                req.session.user.watchList.push(movie);
+                user.save(function(){
+                    res.redirect("/movies/"+req.body.movie);
+                });
+            });
+
+            
+
+        });
+    }
+    
+}
 
 
 function logIn(req,res){
-    User.findOne({username: req.body.username, password: req.body.password}).populate({path:"reviews"}).exec(function(error,result){
+    User.findOne({username: req.body.username, password: req.body.password}).populate([{path:"reviews"},{path:"watchList"}]).exec(function(error,result){
         if(error){
             res.render("error",{error:error});
             throw error;
@@ -44,7 +84,10 @@ function logIn(req,res){
 
 function getProfile(req,res){
     res.status(200);
-    res.render("profile",{user:req.session.user,link:req.session.link});
+    User.findById(req.session.user._id).populate([{path:"reviews"},{path:"watchList"}]).exec(function(err, user){
+        req.session.user = user;
+        res.render("profile",{user:user,link:req.session.link});
+    });
 }
 
 function logOut(req,res){
