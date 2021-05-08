@@ -15,6 +15,8 @@ let Review = require("../models/reviewModel");
 
 const session = require('express-session');
 
+
+
 router.post("/create",createAccount);
 router.get("/profile",getProfile);
 router.post("/logout",logOut);
@@ -22,11 +24,7 @@ router.post("/logIn", logIn);
 router.get("/:uId",getUser);
 
 
-function getProfileJS(req,res){
 
-    let p = require("../public/profile");
-    res.sendFile("../public/profile",{header:{"content-type":"application/json"}});
-}
 
 
 function logIn(req,res){
@@ -37,16 +35,15 @@ function logIn(req,res){
         }else if(result === null){
             res.render("error",{error:"could not find user"});
         }else{
-            console.log(result.reviews);
             req.session.user = result;
             req.session.link = "profile";
-            res.redirect('profile');
+            res.redirect('/users/profile');
         }
     });
 }
 
 function getProfile(req,res){
-    console.log(req.method);
+    res.status(200);
     res.render("profile",{user:req.session.user,link:req.session.link});
 }
 
@@ -84,6 +81,9 @@ function createAccount(req,res){
 
 
 function getUser(req,res){
+
+    console.log(req.url);
+
     User.findById(req.params.uId).
     populate([{path:"watchList"},{path:"reviews"}]).
     exec(function(error,user){

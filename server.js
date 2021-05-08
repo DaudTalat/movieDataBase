@@ -10,6 +10,7 @@ const {Schema} = mongoose;
 
 let app = express();
 app.set('view engine','pug');
+app.use("/",express.static('./public'));
 
 
 
@@ -30,11 +31,11 @@ let reviewRouter = require('./routers/reviewRouter');
 
 app.use(express.urlencoded({ extended: true}));
 app.use(session({secret:'some secret key here'}));
-
 app.use("/movies",movieRouter);
 app.use("/people",peopleRouter);
 app.use("/users",userRouter);
 app.use("/reviews",reviewRouter);
+
 
 
 
