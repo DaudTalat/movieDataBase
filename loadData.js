@@ -79,7 +79,6 @@ function populate_Movies(){
                 peopleSet.add(actor);
             }
 
-
             peopleSet.add(actor);
 
             let find = peopleArray.findIndex(person =>{

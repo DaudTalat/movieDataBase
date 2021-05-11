@@ -26,29 +26,33 @@ router.get("/:uId",getUser);
 
 function removeFromWatchList(req,res){
     User.findById(req.session.user._id).exec(function(error, user){
-        let index = user.watchList.findIndex(ele =>{
-            if(ele.toString() === req.params.wId){
-                return true;
-            }else{
-                return false;
-            }
-        });
-
-        user.watchList.splice(index,1);
-
-        user.save(function(){
-            res.status(200);
-            res.send("oK!");
-        })
-
-
+        if(error){
+            res.status(500);
+            res.render('prompt', { prompt: "Internal Server Error." });
+        }else{
+            let index = user.watchList.findIndex(ele =>{
+                if(ele.toString() === req.params.wId){
+                    return true;
+                }else{
+                    return false;
+                }
+            });
+    
+            user.watchList.splice(index,1);
+    
+            user.save(function(){
+                res.status(200);
+                res.render('prompt', { prompt: "Movie Removed From WatchList" });
+            });
+        }
     });
 }
 
 
 function addToWatchList(req,res){
     if(req.session.user === undefined){
-        res.render("error", {error:"Please Log In First"});
+        res.status(406);
+        res.render('prompt', { prompt: "Please Log In First." });
     }else{
         User.findById(req.session.user._id).exec(function(error,user){
             user.watchList.push(req.body.movie);
@@ -58,9 +62,6 @@ function addToWatchList(req,res){
                     res.redirect("/movies/"+req.body.movie);
                 });
             });
-
-            
-
         });
     }
     
@@ -68,12 +69,15 @@ function addToWatchList(req,res){
 
 
 function logIn(req,res){
-    User.findOne({username: req.body.username, password: req.body.password}).populate([{path:"reviews"},{path:"watchList"}]).exec(function(error,result){
+    User.findOne({username: req.body.username, password: req.body.password}).
+    populate([{path:"reviews"},{path:"watchList"}]).
+    exec(function(error,result){
         if(error){
-            res.render("error",{error:error});
-            throw error;
+            res.status(500);
+            res.render('prompt', { prompt: "Internal Server Error." });
         }else if(result === null){
-            res.render("error",{error:"could not find user"});
+            res.status(404);
+            res.render('prompt', { prompt: "User Not Found." });
         }else{
             req.session.user = result;
             req.session.link = "profile";
@@ -83,10 +87,17 @@ function logIn(req,res){
 }
 
 function getProfile(req,res){
-    res.status(200);
-    User.findById(req.session.user._id).populate([{path:"reviews"},{path:"watchList"}]).exec(function(err, user){
-        req.session.user = user;
-        res.render("profile",{user:user,link:req.session.link});
+    User.findById(req.session.user._id).
+    populate([{path:"reviews"},{path:"watchList"}]).
+    exec(function(err, user){
+        if(err){
+            res.status(500);
+            res.render('prompt', { prompt: "Internal Server Error." });
+        }else{
+            req.session.user = user;
+            res.status(200);
+            res.render("profile",{user:user,link:req.session.link});
+        }
     });
 }
 
@@ -97,19 +108,22 @@ function logOut(req,res){
 }
 
 function createAccount(req,res){
-    console.log(req);
+
     let  un =  req.body.username;
+
     User.findOne({username:un}).exec(function(error, user ){
-        console.log(user);
-        if(user === null){
+        if(error){
+            res.status(500);
+            res.render('prompt', { prompt: "Internal Server Error." });
+        }else if(user === null){
             let u = new User({
                 username: un,
                 password: req.body.password
             });
-            u.save(function(err,result){
+            u.save(function(err){
                 if(err){
-                    
-                    res.render("error",{error:err});
+                    res.status(500);
+                    res.render('prompt', { prompt: "Internal Server Error." });
                 }else{
                     req.session.user = u;
                     req.session.link = "profile";
@@ -117,24 +131,26 @@ function createAccount(req,res){
                 }
             });
         }else{
-            res.render("error",{error:"username already exists!"});
+            res.status(406);
+            res.render('prompt', { prompt: "Username Already Exist." });
         }
     });
 }
 
 
 function getUser(req,res){
-
-    console.log(req.url);
-
     User.findById(req.params.uId).
     populate([{path:"watchList"},{path:"reviews"}]).
     exec(function(error,user){
-        res.render("users",{user:user});
+        if(error){
+            res.status(500);
+            res.render('prompt', { prompt: "Internal Server Error." });
+        }else{
+            res.status(200);
+            res.render("users",{user:user});
+        }
     });
 }
-
-
 
 
 module.exports = router;
